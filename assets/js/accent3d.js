@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════
-   КОМАНДА DJS · variant C — accent3d.js
+   КОМАНДЫ DJS · variant C — accent3d.js
    Мелкие 3D-акценты по секциям (единство стиля с hero-колонкой):
    · about      → Pioneer DJM-A9 (микшер: каналы, фейдеры, ручки, ROLL)
    · structure  → пэд-контроллер (RGB-перформанс-пэды, glow, цветовая волна)
@@ -294,7 +294,7 @@
     // микро-бренд снизу
     x.fillStyle = 'rgba(20,21,26,0.55)'; x.textAlign = 'center'; x.textBaseline = 'middle';
     x.font = '700 ' + (s * 0.017) + 'px JetBrains Mono, monospace';
-    x.fillText('LOCKED CLUB ✕ КОМАНДА DJS', C, C + s * 0.31);
+    x.fillText('LOCKED CLUB ✕ КОМАНДЫ DJS', C, C + s * 0.31);
     // центральная дырка
     x.beginPath(); x.arc(C, C, s * 0.02, 0, Math.PI * 2); x.fillStyle = '#0a0a0c'; x.fill();
     var tex = new THREE.CanvasTexture(c);

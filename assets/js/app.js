@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════
-   КОМАНДА DJS · variant C — app.js
+   КОМАНДЫ DJS · variant C — app.js
    Прелоадер (canvas-набрызг + gooey-потёки) · GSAP-оркестрация ·
    тикер · модалка · lazy three.js
    ════════════════════════════════════════════════════════════════ */
@@ -14,7 +14,7 @@
   function reg() { return 'DJS-' + String(1000 + Math.floor(Math.random() * 8999)); }
   var REG = reg();
 
-  /* ════════ ПРЕЛОАДЕР — canvas-набрызг «КОМАНДА DJS» ════════ */
+  /* ════════ ПРЕЛОАДЕР — canvas-набрызг «КОМАНДЫ DJS» ════════ */
   function preloader(done) {
     var pre = $('#preloader'), cv = $('#sprayCanvas'), numEl = $('#plNum'), barEl = $('#plBar'), regEl = $('#plReg');
     if (regEl) regEl.textContent = 'REG ' + REG;
@@ -23,7 +23,7 @@
     if (RM) { // reduced-motion: статичный логотип, быстрый уход
       var ctxR = cv.getContext('2d'); cv.width = 760; cv.height = 280;
       ctxR.fillStyle = '#f3f1ec'; ctxR.font = '700 120px Oswald, sans-serif'; ctxR.textAlign = 'center'; ctxR.textBaseline = 'middle';
-      ctxR.fillText('КОМАНДА', 380, 96); ctxR.fillStyle = '#e00000'; ctxR.fillText('DJS', 380, 210);
+      ctxR.fillText('КОМАНДЫ', 380, 96); ctxR.fillStyle = '#e00000'; ctxR.fillText('DJS', 380, 210);
       if (numEl) numEl.textContent = '100'; if (barEl) barEl.style.width = '100%';
       setTimeout(function () { finish(pre, done); }, 500); return;
     }
@@ -37,7 +37,7 @@
       ctx.clearRect(0, 0, W, H);
       ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.font = '700 116px Oswald, "Fira Sans Condensed", sans-serif';
-      ctx.fillText('КОМАНДА', W / 2, 92);
+      ctx.fillText('КОМАНДЫ', W / 2, 92);
       ctx.fillText('DJS', W / 2, 206);
       var d = ctx.getImageData(0, 0, W * DPR, H * DPR).data, w = W * DPR;
       pts = [];
