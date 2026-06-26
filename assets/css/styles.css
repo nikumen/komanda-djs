@@ -311,7 +311,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .cta__title { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; font-size: clamp(2.6rem, 1rem + 9vw, 9rem); line-height: 0.86; letter-spacing: -0.02em; margin-bottom: 1.6rem; }
 .cta__sub { max-width: 56ch; margin: 0 auto 2.4rem; color: var(--ink-dim); font-size: clamp(0.98rem, 0.9rem + 0.3vw, 1.18rem); line-height: 1.5; }
 
-/* ════════ ACCENT 3D (мелкие девайсы по секциям, desktop-only) ════════ */
+/* ════════ ACCENT 3D (мелкие девайсы по секциям) ════════ */
 .accent3d { position: absolute; z-index: 1; pointer-events: auto; display: block; width: 340px; height: 340px; }
 .accent3d--mixer { top: 7%; right: 0.5%; width: 400px; height: 330px; }
 .accent3d--pads { top: 5%; right: 0; width: 340px; height: 300px; }
@@ -323,7 +323,21 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .structure > .wrap a, .structure > .wrap button, .structure > .wrap .step,
 .curators > .wrap a, .curators > .wrap button, .curators > .wrap .curator,
 .cta > .wrap a, .cta > .wrap button { pointer-events: auto; }
-@media (max-width: 1100px) { .accent3d { display: none; } .about > .wrap, .structure > .wrap, .curators > .wrap, .cta > .wrap { pointer-events: auto; } }
+/* ── мобайл/планшет: девайсы остаются (доп-3D), меньше и в углу, поверх — текст ── */
+@media (max-width: 1100px) {
+  .about > .wrap, .structure > .wrap, .curators > .wrap, .cta > .wrap { pointer-events: auto; }
+  .accent3d { opacity: 0.9; pointer-events: none; }
+  .accent3d--mixer  { top: 1.4rem; right: -1.4rem; width: 220px; height: 180px; }
+  .accent3d--pads   { top: 1.4rem; right: -1.4rem; width: 210px; height: 175px; }
+  .accent3d--phones { top: 0.8rem; right: -1rem;   width: 185px; height: 230px; }
+  .accent3d--vinyl  { top: 1.6rem; right: -2rem; transform: none; width: 240px; height: 240px; }
+}
+@media (max-width: 560px) {
+  .accent3d--mixer  { width: 175px; height: 145px; top: 1rem; right: -2rem; }
+  .accent3d--pads   { width: 170px; height: 140px; top: 1rem; right: -2rem; }
+  .accent3d--phones { width: 145px; height: 185px; top: 0.6rem; right: -1.6rem; }
+  .accent3d--vinyl  { width: 195px; height: 195px; top: 1rem; right: -2.4rem; }
+}
 
 /* honeypot — скрытое поле-ловушка для ботов (не для глаз/скринридеров) */
 .hp-field { position: absolute !important; left: -9999px !important; top: -9999px !important; width: 1px; height: 1px; opacity: 0; pointer-events: none; }

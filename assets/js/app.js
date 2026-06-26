@@ -287,7 +287,7 @@
     s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'; s.defer = true;
     s.onload = function () {
       var h = document.createElement('script'); h.src = 'assets/js/hero3d.js?v=3'; h.defer = true; document.body.appendChild(h);
-      var a = document.createElement('script'); a.src = 'assets/js/accent3d.js?v=7'; a.defer = true; document.body.appendChild(a);
+      var a = document.createElement('script'); a.src = 'assets/js/accent3d.js?v=8'; a.defer = true; document.body.appendChild(a);
     };
     document.body.appendChild(s);
   }

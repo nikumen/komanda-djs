@@ -13,7 +13,8 @@
   if (!window.THREE) return;
   var THREE = window.THREE;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if (window.matchMedia('(max-width: 1100px)').matches) return; // акценты только на десктопе
+  if (navigator.deviceMemory && navigator.deviceMemory < 3) return; // очень слабые устройства — без доп-3D (перф)
+  var ACC_NARROW = window.matchMedia('(max-width: 1100px)').matches; // мобайл: ниже DPR
 
   /* ── общая мини-сцена на canvas ──────────────────────────────── */
   function initAccent(cv, type) {
@@ -22,7 +23,7 @@
     try {
       renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true, powerPreference: 'high-performance' });
     } catch (e) { return; }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.3));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, ACC_NARROW ? 1.0 : 1.3));
     if (THREE.sRGBEncoding) renderer.outputEncoding = THREE.sRGBEncoding;
 
     scene = new THREE.Scene();
