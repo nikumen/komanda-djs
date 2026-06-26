@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ░░ SEO / GEO ░░ -->
+  <title>КОМАНДА DJS · месяц-интенсив по музыкальному вкусу с тремя кураторами</title>
+  <meta name="description" content="Это не курс, а месяц реальной работы. Трое диджеев (Никита Меньшов, Никита Соболь, Сергей Донских) собрали интенсив про музыкальный вкус: задания и личная обратная связь по твоей библиотеке. Старт 1 июля, набор ограничен." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="canonical" href="https://nikumen.github.io/komanda-djs/" />
+
+  <!-- ░░ Open Graph ░░ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="КОМАНДА DJS" />
+  <meta property="og:url" content="https://nikumen.github.io/komanda-djs/" />
+  <meta property="og:title" content="КОМАНДА DJS · месяц-интенсив по музыкальному вкусу" />
+  <meta property="og:description" content="Это не курс. Это месяц реальной работы с тремя кураторами: Меньшов, Соболь, Донских. Задания и личная обратная связь по твоей библиотеке. ● СТАРТ 1 ИЮЛЯ." />
+  <meta property="og:image" content="https://nikumen.github.io/komanda-djs/assets/img/locked-club.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- ░░ Fonts: Oswald + Fira Sans Condensed (display, cyrillic) · Manrope (body) · JetBrains Mono ░░ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Fira+Sans+Condensed:wght@500;700;800&family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=6" />
+
+  <!-- ░░ JSON-LD: Organization + 3 Person (GEO/rich) ░░ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "#org",
+        "name": "КОМАНДА DJS",
+        "description": "Месяц-интенсив по музыкальному вкусу для диджеев с тремя кураторами. Задания и личная обратная связь по библиотеке. Старт 1 июля, набор ограничен.",
+        "areaServed": "RU"
+      },
+      { "@type": "Person", "name": "Никита Меньшов", "jobTitle": "DJ / Sound Director", "memberOf": {"@id":"#org"}, "sameAs": ["https://instagram.com/nickmenshov","https://t.me/soundslikenick","https://top100awards.ru/jury/menshov"] },
+      { "@type": "Person", "name": "Никита Соболь", "jobTitle": "Event DJ", "memberOf": {"@id":"#org"}, "sameAs": ["https://instagram.com/sobol.mp3","https://top100awards.ru/nikita-sobol"] },
+      { "@type": "Person", "name": "Сергей Донских", "jobTitle": "Event DJ", "memberOf": {"@id":"#org"}, "sameAs": ["https://instagram.com/donskikh.serg","https://one-click.link/donskikhserg"] }
+    ]
+  }
+  </script>
+</head>
+<body data-loading>
+  <a class="skip-link" href="#hero">К содержанию</a>
+
+  <!-- ░░ SVG-источники фильтров: grain · spray-mask · gooey · duotone ░░ -->
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="grainFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="saturate" values="0"/></filter>
+      <!-- gooey: потёки слипаются -->
+      <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b"/><feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="g"/><feBlend in="SourceGraphic" in2="g"/></filter>
+      <!-- duotone: тень → красный (карточки кураторов, near-B&W фото) -->
+      <filter id="duoRed" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0" result="gray"/>
+        <feComponentTransfer in="gray">
+          <feFuncR type="table" tableValues="0.13 0.64 0.99"/>
+          <feFuncG type="table" tableValues="0.05 0.17 0.93"/>
+          <feFuncB type="table" tableValues="0.05 0.16 0.91"/>
+        </feComponentTransfer>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ░░ ГРАФФИТИ-ПРЕЛОАДЕР (canvas-набрызг + gooey-потёки) ░░ -->
+  <div class="preloader" id="preloader" role="status" aria-label="Загрузка">
+    <div class="preloader__hud">
+      <span class="mono" id="plReg">REG DJS-————</span>
+      <span class="mono">// ЗАГРУЗКА ДИСПЕТЧЕРСКОЙ</span>
+    </div>
+    <canvas class="preloader__canvas" id="sprayCanvas" aria-hidden="true"></canvas>
+    <div class="preloader__count">
+      <span class="preloader__num mono" id="plNum">00</span><span class="preloader__pct mono">%</span>
+      <span class="preloader__bar" aria-hidden="true"><i id="plBar"></i></span>
+    </div>
+  </div>
+
+  <!-- ░░ постоянные оверлеи (grain · scanlines · CCTV-рамка · vignette) ░░ -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="cctv" aria-hidden="true">
+    <span class="cctv__c cctv__c--tl"></span><span class="cctv__c cctv__c--tr"></span>
+    <span class="cctv__c cctv__c--bl"></span><span class="cctv__c cctv__c--br"></span>
+  </div>
+
+  <!-- кастомный курсор -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- ░░ NAV / broadcast-бар ░░ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="#hero" aria-label="КОМАНДА DJS, на главную" data-magnet>
+        КОМАНДА<span class="nav__brand-dim">_DJS</span>
+      </a>
+      <nav class="nav__links" aria-label="Основная навигация">
+        <a class="nav__link" href="#about"><span class="nav__link-idx">01</span> Интенсив</a>
+        <a class="nav__link" href="#structure"><span class="nav__link-idx">02</span> Путь</a>
+        <a class="nav__link" href="#curators"><span class="nav__link-idx">03</span> Кураторы</a>
+        <a class="nav__link" href="#faq"><span class="nav__link-idx">04</span> FAQ</a>
+      </nav>
+      <button class="btn btn--apply" data-apply data-magnet type="button">
+        <span class="btn__dot" aria-hidden="true"></span> Оставить заявку
+      </button>
+    </div>
+    <div class="ticker mono" aria-hidden="true">
+      <span class="ticker__seg">GMT <b id="tkClock">--:--:--</b></span>
+      <span class="ticker__seg">REG <b id="tkReg">DJS-————</b></span>
+      <span class="ticker__seg">СТАРТ <b>1 ИЮЛЯ</b></span>
+      <span class="ticker__seg ticker__seg--rec"><i class="ticker__pulse"></i> REC / НАБОР ОТКРЫТ</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ░░ HERO (3D-тотем под оверлеем) ░░ -->
+    <section class="hero" id="hero" aria-labelledby="hero-heading">
+      <canvas class="hero__gl" id="totem" aria-hidden="true"></canvas>
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <p class="hero__kicker mono">[ DJ COLLECTIVE · ДИСПЕТЧЕРСКАЯ · ИНТЕНСИВ ]</p>
+        <h1 class="hero__title" id="hero-heading">
+          <span class="hero__line" data-scramble>КОМАНДА</span>
+          <span class="hero__line hero__line--accent" data-scramble>DJS</span>
+        </h1>
+        <dl class="meta" aria-label="Параметры коллектива">
+          <div class="meta__row"><dt class="mono">STUDIO</dt><dd class="mono">MSK_UNDERGROUND</dd></div>
+          <div class="meta__row"><dt class="mono">DISCIPLINE</dt><dd class="mono">MENTORSHIP / STAGE</dd></div>
+          <div class="meta__row"><dt class="mono">STATUS</dt><dd class="mono"><span class="meta__rec">● НАБОР ОТКРЫТ</span></dd></div>
+          <div class="meta__row"><dt class="mono">LOCATION</dt><dd class="mono">55.75°N / 37.61°E</dd></div>
+        </dl>
+        <p class="hero__sub">
+          Трое диджеев, которых ты&nbsp;скорее всего знаешь, собрали <b>интенсив</b> про одну вещь.
+          Почему ты&nbsp;включаешь именно этот трек и&nbsp;где вообще твоя музыка. Не&nbsp;лекции,
+          а&nbsp;практика, задания и&nbsp;личная обратная связь по&nbsp;твоей библиотеке.
+        </p>
+        <div class="hero__actions">
+          <button class="btn btn--apply btn--lg" data-apply data-magnet type="button">
+            <span class="btn__dot" aria-hidden="true"></span> Оставить заявку →
+          </button>
+          <a class="btn btn--ghost btn--lg" href="#about" data-magnet>Что за проект</a>
+        </div>
+      </div>
+      <a class="hero__scroll mono" href="#about" aria-label="Листать вниз">SCROLL ↓</a>
+    </section>
+
+    <!-- ░░ MARQUEE — манифест ░░ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" data-marquee>
+        <span>СВОЙ ПОЧЕРК ИЛИ НИЧЕГО</span><span class="ast">✶</span><span>БИБЛИОТЕКА НА МАКСИМУМ</span><span class="ast">✶</span><span>ТРИ КУРАТОРА. ОДИН МЕСЯЦ</span><span class="ast">✶</span>
+      </div>
+      <div class="marquee__track" data-marquee aria-hidden="true">
+        <span>СВОЙ ПОЧЕРК ИЛИ НИЧЕГО</span><span class="ast">✶</span><span>БИБЛИОТЕКА НА МАКСИМУМ</span><span class="ast">✶</span><span>ТРИ КУРАТОРА. ОДИН МЕСЯЦ</span><span class="ast">✶</span>
+      </div>
+    </div>
+
+    <!-- ░░ 01 · О ПРОЕКТЕ ░░ -->
+    <section class="section about" id="about" aria-labelledby="about-heading">
+      <canvas class="accent3d accent3d--mixer" data-accent="mixer" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <header class="sec-head">
+          <span class="sec-head__idx mono">01 · ИНТЕНСИВ</span>
+          <h2 class="sec-head__title" id="about-heading" data-reveal>Это не&nbsp;курс. Это <span class="accent">месяц реальной работы</span></h2>
+        </header>
+        <div class="about__grid">
+          <p class="about__lead" data-reveal>
+            Месяц плотной работы, после которого перестаёшь тыкаться наугад и&nbsp;начинаешь
+            делать это системно. Задания и&nbsp;разборы по&nbsp;твоей библиотеке, а&nbsp;не&nbsp;общие лекции.
+          </p>
+          <div class="about__body" data-reveal>
+            <p class="about__sub">Что заберёшь:</p>
+            <ul class="about__take">
+              <li>свой универсальный пак под&nbsp;свои задачи;</li>
+              <li>селекцию точно под&nbsp;то, что нужно здесь и&nbsp;сейчас;</li>
+              <li>библиотеку, в&nbsp;которой ориентируешься за&nbsp;секунды;</li>
+              <li>умение вырулить из&nbsp;нестандартной ситуации на&nbsp;мероприятии;</li>
+              <li>навык выжимать библиотеку на&nbsp;максимум.</li>
+            </ul>
+            <button class="btn btn--apply" data-apply data-magnet type="button">
+              <span class="btn__dot" aria-hidden="true"></span> Забронировать место
+            </button>
+          </div>
+        </div>
+        <p class="about__env" data-reveal>
+          Одна задача, двадцать диджеев, двадцать решений. Кто-то покажет ход, который ты&nbsp;не&nbsp;придумал,
+          кто-то откроет жанр, который ты&nbsp;обходил годами. Иногда один коммент участника даёт больше,
+          чем целый курс. Среда влияет сильнее информации.
+        </p>
+      </div>
+    </section>
+
+    <!-- ░░ 02 · СТРУКТУРА И ЗАДАНИЯ ░░ -->
+    <section class="section structure" id="structure" aria-labelledby="structure-heading">
+      <canvas class="accent3d accent3d--pads" data-accent="pads" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <header class="sec-head">
+          <span class="sec-head__idx mono">02 · ПУТЬ</span>
+          <h2 class="sec-head__title" id="structure-heading" data-reveal>От&nbsp;заявки до&nbsp;нового <span class="accent">звучания</span></h2>
+          <p class="sec-head__note">Старт 1&nbsp;июля, финиш 5&nbsp;августа, защита 12&nbsp;августа. Задания индивидуальные и&nbsp;командные, каждое проверяет куратор лично. Набор ограничен, чтобы никто не&nbsp;отсиживался.</p>
+        </header>
+        <ol class="steps steps--three">
+          <li class="step" data-reveal>
+            <span class="step__idx mono">01</span>
+            <h3 class="step__title">Заявка</h3>
+            <p class="step__text">Оставляешь заявку и&nbsp;коротко рассказываешь о&nbsp;себе. Берём тех, кто реально готов работать месяц, а&nbsp;не&nbsp;полежать.</p>
+            <span class="step__tag mono">PHASE_01 / INTAKE</span>
+          </li>
+          <li class="step" data-reveal>
+            <span class="step__idx mono">02</span>
+            <h3 class="step__title">Задания</h3>
+            <p class="step__text">Месяц индивидуальных и&nbsp;командных заданий по&nbsp;твоей библиотеке. Каждое проверяет куратор лично, без воды и&nbsp;общих советов.</p>
+            <span class="step__tag mono">PHASE_02 / DRILL</span>
+          </li>
+          <li class="step step--win" data-reveal>
+            <span class="step__idx mono">03</span>
+            <h3 class="step__title">Новое звучание</h3>
+            <p class="step__text">На&nbsp;выходе своя система отбора музыки и&nbsp;собственный почерк, а&nbsp;не&nbsp;набор чужих рекомендаций. Навсегда.</p>
+            <span class="step__tag mono">PHASE_03 / SOUND</span>
+          </li>
+        </ol>
+        <div class="steps__cta">
+          <button class="btn btn--apply btn--lg" data-apply data-magnet type="button">
+            <span class="btn__dot" aria-hidden="true"></span> Начать с&nbsp;заявки →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ 03 · КУРАТОРЫ (РЕАЛЬНЫЕ ДАННЫЕ — факты не менять) ░░ -->
+    <section class="section curators" id="curators" aria-labelledby="curators-heading">
+      <canvas class="accent3d accent3d--phones" data-accent="phones" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <header class="sec-head">
+          <span class="sec-head__idx mono">03 · КУРАТОРЫ</span>
+          <h2 class="sec-head__title" id="curators-heading" data-reveal>Кто ставит <span class="accent">руку</span></h2>
+        </header>
+        <div class="curators__lead" data-reveal>
+          <p>Никита Меньшов, TOP15MOSCOW и&nbsp;член жюри TOP100AWARDS, играет на&nbsp;топовых ивентах страны.</p>
+          <p>Никита Соболь, победитель Wedding Awards и&nbsp;тройка в&nbsp;ТОП-100.</p>
+          <p>Сергей Донских, его&nbsp;паками каждый год пользуется вся страна.</p>
+          <p class="curators__lead-note">Каждый смотрит на&nbsp;музыку по-своему. Работать будешь сразу со&nbsp;всеми.</p>
+        </div>
+        <div class="curators__grid">
+
+          <article class="curator" data-reveal>
+            <figure class="curator__media">
+              <span class="curator__bigname" aria-hidden="true">МЕНЬШОВ</span>
+              <img class="curator__img" src="assets/img/menshov.jpg" alt="Никита Меньшов" loading="lazy" decoding="async" width="1170" height="958" style="object-position: 70% 32%;" />
+              <figcaption class="curator__panel">
+                <a href="https://instagram.com/nickmenshov" target="_blank" rel="noopener">Instagram ↗</a>
+                <a href="https://t.me/soundslikenick" target="_blank" rel="noopener">Telegram ↗</a>
+                <a href="https://top100awards.ru/jury/menshov" target="_blank" rel="noopener">Top100 ↗</a>
+              </figcaption>
+            </figure>
+            <div class="curator__info">
+              <span class="curator__idx mono">01</span>
+              <h3 class="curator__name">Никита Меньшов</h3>
+              <p class="curator__role mono">DJ · SOUND DIRECTOR</p>
+              <p class="curator__bio">Диджей и саунд-директор международного уровня. Член TOP15MOSCOW и жюри TOP100AWARDS, 500+ событий, аудитории до 6000 человек. Работал с Yandex, Т-Банк, Setters и ведущими свадебными агентствами Москвы, регулярно играет за рубежом. Не боится показать музыку, которую ещё не слышали.</p>
+            </div>
+          </article>
+
+          <article class="curator curator--offset" data-reveal>
+            <figure class="curator__media">
+              <span class="curator__bigname" aria-hidden="true">СОБОЛЬ</span>
+              <img class="curator__img" src="assets/img/sobol.webp" alt="Никита Соболь" loading="lazy" decoding="async" width="1200" height="1500" />
+              <figcaption class="curator__panel">
+                <a href="https://instagram.com/sobol.mp3" target="_blank" rel="noopener">Instagram ↗</a>
+                <a href="https://top100awards.ru/nikita-sobol" target="_blank" rel="noopener">Top100 ↗</a>
+              </figcaption>
+            </figure>
+            <div class="curator__info">
+              <span class="curator__idx mono">02</span>
+              <h3 class="curator__name">Никита Соболь</h3>
+              <p class="curator__role mono">EVENT DJ · МУЛЬТИФОРМАТ</p>
+              <p class="curator__bio">Событийный диджей из Москвы, победитель WEDDING AWARDS 2024 в номинации «Лучший Event DJ» и №3 в рейтинге TOP100AWARDS. 13 лет за пультом, мультиформат от попа до техно. Среди проектов работа с Zivert, Гудковым, Чеботиной, Реввой. Ценит искреннюю эмоцию на танцполе.</p>
+            </div>
+          </article>
+
+          <article class="curator" data-reveal>
+            <figure class="curator__media">
+              <span class="curator__bigname" aria-hidden="true">ДОНСКИХ</span>
+              <img class="curator__img" src="assets/img/donskikh.jpg" alt="Сергей Донских" loading="lazy" decoding="async" width="1000" height="667" style="object-position: 50% 28%;" />
+              <figcaption class="curator__panel">
+                <a href="https://instagram.com/donskikh.serg" target="_blank" rel="noopener">Instagram ↗</a>
+                <a href="https://one-click.link/donskikhserg" target="_blank" rel="noopener">Все ссылки ↗</a>
+              </figcaption>
+            </figure>
+            <div class="curator__info">
+              <span class="curator__idx mono">03</span>
+              <h3 class="curator__name">Сергей Донских</h3>
+              <p class="curator__role mono">EVENT DJ · ЮГ РОССИИ</p>
+              <p class="curator__bio">Ивент-диджей из Волгограда и заметная фигура свадебно-событийной индустрии Юга. Победитель Wedding Awards Юг 2023 в номинации «Лучший Event DJ», участник Wedding Awards Russia и приглашённый член жюри региональных Wedding Awards. Более 100 мероприятий в год; строит сет как артист, со своим стилем и драматургией танцпола. Делится опытом с коллегами: мастер-классы и онлайн-форумы для диджеев.</p>
+            </div>
+          </article>
+
+        </div>
+        <div class="curators__cta">
+          <button class="btn btn--apply btn--lg" data-apply data-magnet type="button">
+            <span class="btn__dot" aria-hidden="true"></span> К&nbsp;ним в&nbsp;обучение →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ 04 · FAQ ░░ -->
+    <section class="section faq" id="faq" aria-labelledby="faq-heading">
+      <div class="wrap wrap--narrow">
+        <header class="sec-head">
+          <span class="sec-head__idx mono">04 · FAQ</span>
+          <h2 class="sec-head__title" id="faq-heading" data-reveal>Коротко о&nbsp;главном</h2>
+        </header>
+        <details class="faq__item" data-reveal>
+          <summary><span>Нужен&nbsp;ли опыт?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+          <p>Опыт не&nbsp;обязателен. Смотрим на&nbsp;вкус и&nbsp;желание, уровень определим на&nbsp;старте.</p>
+        </details>
+        <details class="faq__item" data-reveal>
+          <summary><span>Сколько это стоит?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+          <p>15&nbsp;000&nbsp;₽ за месяц работы сразу с&nbsp;тремя кураторами. Для многих это один ивент, а&nbsp;система отбора музыки останется навсегда.</p>
+        </details>
+        <details class="faq__item" data-reveal>
+          <summary><span>Когда старт и&nbsp;сколько длится?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+          <p>Старт 1&nbsp;июля, финиш 5&nbsp;августа, защита итогового материала 12&nbsp;августа. Чуть больше месяца плотной работы.</p>
+        </details>
+        <details class="faq__item" data-reveal>
+          <summary><span>А&nbsp;вдруг не&nbsp;зайдёт?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+          <p>Есть такой шанс. Придётся делать задания, выходить из&nbsp;зоны комфорта и&nbsp;реально впахивать. Мотивационных историй месяц никто не&nbsp;рассказывает. Хочешь просто купить и&nbsp;полежать, не&nbsp;надо.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ░░ ФИНАЛЬНЫЙ CTA ░░ -->
+    <section class="cta" id="apply-cta" aria-labelledby="cta-heading">
+      <canvas class="accent3d accent3d--vinyl" data-accent="vinyl" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <p class="cta__kicker mono">[ НАБОР 2026 · МЕСТА ОГРАНИЧЕНЫ · REG <span id="ctaReg">DJS-————</span> ]</p>
+        <h2 class="cta__title" id="cta-heading" data-reveal>Ты&nbsp;уже знаешь, <span class="accent">надо тебе это или нет</span></h2>
+        <p class="cta__sub">15&nbsp;000&nbsp;₽ за&nbsp;месяц работы сразу с&nbsp;тремя кураторами. Для&nbsp;многих это один ивент. На&nbsp;выходе не&nbsp;рекомендации, а&nbsp;своя система отбора музыки навсегда.</p>
+        <button class="btn btn--apply btn--xl" data-apply data-magnet type="button">
+          <span class="btn__dot" aria-hidden="true"></span> Стать участником за&nbsp;15&nbsp;000&nbsp;₽
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ░░ FOOTER ░░ -->
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">КОМАНДА<span class="nav__brand-dim">_DJS</span></div>
+      <nav class="footer__links" aria-label="Footer">
+        <a href="#about">Интенсив</a>
+        <a href="#structure">Путь</a>
+        <a href="#curators">Кураторы</a>
+        <button class="linklike" data-apply type="button">Заявка</button>
+      </nav>
+      <p class="footer__copy mono">© <span id="year">2026</span> КОМАНДА DJS · диспетчерская андеграунда</p>
+    </div>
+  </footer>
+
+  <!-- persistent apply FAB -->
+  <button class="fab" data-apply data-magnet type="button" aria-label="Оставить заявку">
+    <span class="fab__txt">Заявка</span><span class="fab__dot" aria-hidden="true"></span>
+  </button>
+
+  <!-- ░░ МОДАЛКА ЗАЯВКИ ░░ -->
+  <dialog class="modal" id="applyModal" aria-labelledby="modalTitle">
+    <form class="modal__card" id="applyForm" method="dialog" novalidate>
+      <div class="modal__head">
+        <span class="mono">// ЗАЯВКА НА ИНТЕНСИВ / DISPATCH</span>
+        <button class="modal__close" id="modalClose" type="button" aria-label="Закрыть">✕</button>
+      </div>
+      <h2 class="modal__title" id="modalTitle">Оставить заявку</h2>
+      <p class="modal__note mono">Поля со&nbsp;<span class="accent">*</span> обязательны. Заявка уйдёт кураторам в&nbsp;Telegram.</p>
+      <input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <div class="form">
+        <div class="field">
+          <label for="f-name" class="mono">ФИО <span class="accent">*</span></label>
+          <input id="f-name" name="name" type="text" required autocomplete="name" placeholder="Иван Иванов" />
+          <span class="field__err" data-err></span>
+        </div>
+        <div class="field">
+          <label for="f-phone" class="mono">Телефон <span class="accent">*</span></label>
+          <input id="f-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+7 900 000-00-00" />
+          <span class="field__err" data-err></span>
+        </div>
+        <div class="field">
+          <label for="f-tg" class="mono">Telegram <span class="accent">*</span></label>
+          <input id="f-tg" name="telegram" type="text" required placeholder="@username" />
+          <span class="field__err" data-err></span>
+        </div>
+        <div class="field field--optional">
+          <label for="f-ig" class="mono">Instagram</label>
+          <input id="f-ig" name="instagram" type="text" placeholder="@username" />
+        </div>
+        <div class="field field--optional field--full">
+          <label for="f-mixes" class="mono">Ссылки на миксы</label>
+          <textarea id="f-mixes" name="mixes" rows="2" placeholder="SoundCloud / Я.Музыка / YouTube, по одной в строке"></textarea>
+        </div>
+      </div>
+      <div class="modal__actions">
+        <button class="btn btn--apply btn--lg" type="submit">Отправить заявку →</button>
+        <p class="modal__priv mono">Нажимая, ты&nbsp;соглашаешься на&nbsp;обработку данных.</p>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast mono" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ░░ GSAP + ScrollTrigger (defer). three.js грузится lazy из app.js после прелоадера ░░ -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="assets/js/app.js?v=5"></script>
+</body>
+</html>
