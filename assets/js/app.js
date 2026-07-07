@@ -296,9 +296,8 @@
         method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body
       }).then(function (r) { return r.json(); }).then(function (res) {
         if (res && res.ok && res.deeplink) {
-          showPayLink(res.deeplink);
-          showToast('✓ Заявка принята. Продолжи оплату в Telegram');
-          form.reset();
+          form.reset(); close();
+          window.location.href = res.deeplink;
         } else if (res && res.ok) {
           close(); showToast('✓ Заявка отправлена. Скоро напишем в Telegram'); form.reset();
         } else {
