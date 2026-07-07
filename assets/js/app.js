@@ -245,6 +245,37 @@
 
     function showToast(msg) { if (!toast) return; toast.textContent = msg; toast.classList.add('is-show'); setTimeout(function () { toast.classList.remove('is-show'); }, 3200); }
 
+    // ── кнопка «Оплатить в Telegram» — создаётся динамически, index.html не трогаем ──
+    var actions = $('.modal__actions', form);
+    var payLink = null, payNote = null;
+    function ensurePayUI() {
+      if (payLink) return;
+      payLink = document.createElement('a');
+      payLink.className = 'btn btn--apply btn--lg';
+      payLink.id = 'applyPayLink';
+      payLink.target = '_blank';
+      payLink.rel = 'noopener';
+      payLink.textContent = 'Оплатить в Telegram →';
+      payLink.style.display = 'none';
+      payNote = document.createElement('p');
+      payNote.className = 'modal__priv mono';
+      payNote.id = 'applyPayNote';
+      payNote.style.display = 'none';
+      payNote.textContent = '✓ Заявка принята. Нажми кнопку и продолжи оплату в Telegram';
+      if (actions) {
+        actions.insertBefore(payNote, actions.firstChild);
+        actions.insertBefore(payLink, actions.firstChild);
+      }
+    }
+    function showPayLink(deeplink) {
+      ensurePayUI();
+      var submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.style.display = 'none';
+      payLink.href = deeplink;
+      payLink.style.display = '';
+      payNote.style.display = '';
+    }
+
     if (form) form.addEventListener('submit', function (e) {
       e.preventDefault(); var ok = true;
       ['name', 'phone', 'telegram'].forEach(function (n) {
@@ -264,12 +295,19 @@
       fetch('https://allmusicbot.ru/djs-apply', {
         method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body
       }).then(function (r) { return r.json(); }).then(function (res) {
-        if (res && res.ok) { close(); showToast('✓ Заявка отправлена. Скоро напишем в Telegram'); form.reset(); }
-        else { showToast('Не отправилось. Попробуй ещё раз или напиши @nickmenshov'); }
+        if (res && res.ok && res.deeplink) {
+          showPayLink(res.deeplink);
+          showToast('✓ Заявка принята. Продолжи оплату в Telegram');
+          form.reset();
+        } else if (res && res.ok) {
+          close(); showToast('✓ Заявка отправлена. Скоро напишем в Telegram'); form.reset();
+        } else {
+          showToast('Не отправилось. Попробуй ещё раз или напиши @nickmenshov');
+        }
       }).catch(function () {
         showToast('Сеть недоступна. Попробуй ещё раз или напиши @nickmenshov');
       }).then(function () {
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Отправить заявку →'; }
+        if (submitBtn && submitBtn.style.display !== 'none') { submitBtn.disabled = false; submitBtn.textContent = 'Отправить заявку →'; }
       });
     });
   }
